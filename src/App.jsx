@@ -1,14 +1,23 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
-import Accueil from './pages/Accueil';
-import APropos from './pages/APropos';
-import Services from './pages/Services';
-import Formations from './pages/Formations';
+import Accueil from './pages utilisateur/Accueil';
+import APropos from './pages utilisateur/APropos';
+import Services from './pages utilisateur/Services';
+import Formations from './pages utilisateur/Formations';
 
-import Actualites from './pages/Actualites';
-import Contact from './pages/Contact';
-import PolitiqueConfidentialite from './pages/PolitiqueConfidentialite';
-import MentionsLegales from './pages/MentionsLegales';
+import Actualites from './pages utilisateur/Actualites';
+import Contact from './pages utilisateur/Contact';
+import PolitiqueConfidentialite from './pages utilisateur/PolitiqueConfidentialite';
+import MentionsLegales from './pages utilisateur/MentionsLegales';
+
+// Imports Admin
+import AdminLayout from './pages admin/AdminLayout';
+import Dashboard from './pages admin/Dashboard';
+import AdminFormations from './pages admin/AdminFormations';
+import AdminActualites from './pages admin/AdminActualites';
+import AdminInscriptions from './pages admin/AdminInscriptions';
+import AdminEtudiants from './pages admin/AdminEtudiants';
+import AdminServices from './pages admin/AdminServices';
 
 function App() {
   return (
@@ -26,6 +35,16 @@ function App() {
           <Route path="mentions-legales" element={<MentionsLegales />} />
           {/* Catch all route - 404 can go here if needed */}
           <Route path="*" element={<Accueil />} />
+        </Route>
+
+        {/* Routes Administration */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="formations" element={<AdminFormations />} />
+          <Route path="actualites" element={<AdminActualites />} />
+          <Route path="inscriptions" element={<AdminInscriptions />} />
+          <Route path="etudiants" element={<AdminEtudiants />} />
+          <Route path="services" element={<AdminServices />} />
         </Route>
       </Routes>
     </BrowserRouter>
