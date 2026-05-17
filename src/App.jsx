@@ -4,8 +4,9 @@ import Accueil from './pages utilisateur/Accueil';
 import APropos from './pages utilisateur/APropos';
 import Services from './pages utilisateur/Services';
 import Formations from './pages utilisateur/Formations';
+import Inscription from './pages utilisateur/inscription';
 
-import Actualites from './pages utilisateur/Actualites';
+//import Actualites from './pages utilisateur/Actualites';
 import Contact from './pages utilisateur/Contact';
 import PolitiqueConfidentialite from './pages utilisateur/PolitiqueConfidentialite';
 import MentionsLegales from './pages utilisateur/MentionsLegales';
@@ -28,8 +29,9 @@ function App() {
           <Route path="a-propos" element={<APropos />} />
           <Route path="services" element={<Services />} />
           <Route path="formations" element={<Formations />} />
+          <Route path="inscription" element={<Inscription />} />
 
-          <Route path="actualites" element={<Actualites />} />
+          {/*     <Route path="actualites" element={<Actualites />} />*/}
           <Route path="contact" element={<Contact />} />
           <Route path="politique-de-confidentialite" element={<PolitiqueConfidentialite />} />
           <Route path="mentions-legales" element={<MentionsLegales />} />
