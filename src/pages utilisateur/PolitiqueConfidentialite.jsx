@@ -9,9 +9,9 @@ const PolitiqueConfidentialite = () => {
   return (
     <div className="bg-slate-50 min-h-screen py-24">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Header */}
-        <motion.div 
+        <motion.div
           initial="hidden"
           animate="visible"
           variants={fadeIn}
@@ -20,7 +20,7 @@ const PolitiqueConfidentialite = () => {
           <span className="text-[var(--color-brand-orange)] font-bold tracking-wider uppercase text-sm mb-4 block">
             Informations Légales
           </span>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold    mb-6">
             Politique de Confidentialité
           </h1>
           <p className="text-xl text-gray-600">
@@ -30,13 +30,13 @@ const PolitiqueConfidentialite = () => {
         </motion.div>
 
         {/* Content */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 md:p-12 space-y-12 text-gray-700 leading-relaxed"
         >
-          
+
           <section>
             <h2 className="text-2xl font-bold text-[var(--color-brand-blue)] mb-4">1. Introduction</h2>
             <p>

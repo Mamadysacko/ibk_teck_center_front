@@ -141,11 +141,11 @@ const pricingGroups = [
 
 // ─── Couleurs par groupe ──────────────────────────────────────────────────────
 const colorMap = {
-  blue:    { bg: 'bg-blue-50',    text: 'text-blue-700',    badge: 'bg-blue-100 text-blue-700',    dot: 'bg-blue-500',    border: 'border-blue-200'   },
-  orange:  { bg: 'bg-orange-50',  text: 'text-orange-700',  badge: 'bg-orange-100 text-orange-700',  dot: 'bg-orange-500',  border: 'border-orange-200' },
-  violet:  { bg: 'bg-violet-50',  text: 'text-violet-700',  badge: 'bg-violet-100 text-violet-700',  dot: 'bg-violet-500',  border: 'border-violet-200' },
-  emerald: { bg: 'bg-emerald-50', text: 'text-emerald-700', badge: 'bg-emerald-100 text-emerald-700', dot: 'bg-emerald-500', border: 'border-emerald-200'},
-  indigo:  { bg: 'bg-indigo-50',  text: 'text-indigo-700',  badge: 'bg-indigo-100 text-indigo-700',  dot: 'bg-indigo-500',  border: 'border-indigo-200' },
+  blue: { bg: 'bg-blue-50', text: 'text-blue-700', badge: 'bg-blue-100 text-blue-700', dot: 'bg-blue-500', border: 'border-blue-200' },
+  orange: { bg: 'bg-orange-50', text: 'text-orange-700', badge: 'bg-orange-100 text-orange-700', dot: 'bg-orange-500', border: 'border-orange-200' },
+  violet: { bg: 'bg-violet-50', text: 'text-violet-700', badge: 'bg-violet-100 text-violet-700', dot: 'bg-violet-500', border: 'border-violet-200' },
+  emerald: { bg: 'bg-emerald-50', text: 'text-emerald-700', badge: 'bg-emerald-100 text-emerald-700', dot: 'bg-emerald-500', border: 'border-emerald-200' },
+  indigo: { bg: 'bg-indigo-50', text: 'text-indigo-700', badge: 'bg-indigo-100 text-indigo-700', dot: 'bg-indigo-500', border: 'border-indigo-200' },
 };
 
 // ─── Composant accordéon tarif ────────────────────────────────────────────────
@@ -168,7 +168,7 @@ const PricingGroup = ({ group, index }) => {
       >
         <div className="flex items-center gap-3">
           <span className={`${c.text}`}>{group.icon}</span>
-          <span className={`font-bold text-gray-900 text-base`}>{group.label}</span>
+          <span className={`font-bold    text-base`}>{group.label}</span>
           <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${c.badge}`}>
             {group.services.length} service{group.services.length > 1 ? 's' : ''}
           </span>
@@ -195,7 +195,7 @@ const PricingGroup = ({ group, index }) => {
                 >
                   <div className="flex items-center gap-3">
                     <span className={`w-2 h-2 rounded-full ${c.dot} flex-shrink-0`} />
-                    <span className="text-gray-800 font-medium text-sm">{svc.name}</span>
+                    <span className="   font-medium text-sm">{svc.name}</span>
                   </div>
                   <span className={`text-sm font-bold whitespace-nowrap ml-4 ${svc.fixed ? 'text-emerald-700' : 'text-gray-500 italic'}`}>
                     {svc.tarif}
@@ -221,7 +221,7 @@ const Services = () => {
           <span className="inline-block px-4 py-2 rounded-full bg-orange-100 text-[var(--color-brand-orange)] font-semibold text-sm mb-5">
             IBK TECH CENTER
           </span>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Nos Services</h1>
+          <h1 className="text-4xl md:text-5xl font-bold    mb-6">Nos Services</h1>
           <div className="w-24 h-1 bg-[var(--color-brand-orange)] mx-auto mb-8 rounded-full" />
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             IBK TECH CENTER vous accompagne avec des formations professionnelles,
@@ -246,7 +246,7 @@ const Services = () => {
                   {category.icon}
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-900">{category.title}</h3>
+                  <h3 className="text-2xl font-bold   ">{category.title}</h3>
                   <p className="text-gray-600 text-sm mt-2 leading-relaxed">{category.desc}</p>
                 </div>
               </div>
@@ -273,7 +273,7 @@ const Services = () => {
             <span className="inline-block px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-semibold text-sm mb-5">
               Tarifs indicatifs
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Nos Tarifs</h2>
+            <h2 className="text-3xl md:text-4xl font-bold    mb-4">Nos Tarifs</h2>
             <div className="w-20 h-1 bg-[var(--color-brand-blue)] mx-auto mb-6 rounded-full" />
             <p className="text-gray-500 max-w-2xl mx-auto">
               Consultez nos tarifs par catégorie. Pour les services sur devis, contactez-nous pour un accompagnement personnalisé.
@@ -336,7 +336,7 @@ const Services = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold    mb-6">
               Services pour Écoles & Établissements
             </h2>
             <div className="w-24 h-1 bg-[var(--color-brand-orange)] mx-auto mb-8 rounded-full" />
@@ -359,7 +359,7 @@ const Services = () => {
                 <div className="bg-blue-50 w-20 h-20 rounded-2xl flex items-center justify-center mb-6 text-[var(--color-brand-blue)] group-hover:bg-[var(--color-brand-blue)] group-hover:text-white transition-colors duration-300">
                   {service.icon}
                 </div>
-                <h3 className="text-xl font-bold mb-4 text-gray-900 group-hover:text-[var(--color-brand-orange)] transition-colors">
+                <h3 className="text-xl font-bold mb-4    group-hover:text-[var(--color-brand-orange)] transition-colors">
                   {service.title}
                 </h3>
                 <p className="text-gray-600 leading-relaxed">{service.desc}</p>

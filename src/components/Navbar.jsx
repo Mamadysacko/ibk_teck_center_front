@@ -14,7 +14,7 @@ const Navbar = () => {
     { name: 'À propos', path: '/a-propos' },
     { name: 'Services', path: '/services' },
     { name: 'Formations', path: '/formations' },
-   // { name: 'Actualités', path: '/actualites' },
+    { name: 'Actualités', path: '/actualites' },
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -50,7 +50,7 @@ const Navbar = () => {
               className="h-11 w-auto transition-transform duration-300 group-hover:scale-105"
             />
             <div className="hidden sm:block">
-              <span className="font-heading font-bold text-2xl tracking-tighter text-gray-900">
+              <span className="font-heading font-bold text-2xl tracking-tighter   ">
                 IBK <span className="text-[var(--color-brand-orange)]">TECH</span> CENTER
               </span>
               <p className="text-[10px] text-gray-500 -mt-1">Excellence technologique</p>
@@ -67,7 +67,7 @@ const Navbar = () => {
                   'relative font-medium text-sm transition-all duration-300 py-2',
                   location.pathname === link.path
                     ? 'text-[var(--color-brand-blue)]'
-                    : 'text-gray-600 hover:text-gray-900'
+                    : 'text-gray-600 hover:  '
                 )}
               >
                 {link.name}
@@ -95,7 +95,7 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-3 text-gray-700 hover:text-gray-900 transition-colors"
+            className="md:hidden p-3 text-gray-700 hover:   transition-colors"
             aria-label="Toggle menu"
           >
             {isOpen ? <X size={28} /> : <Menu size={28} />}

@@ -9,9 +9,9 @@ const MentionsLegales = () => {
   return (
     <div className="bg-slate-50 min-h-screen py-24">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Header */}
-        <motion.div 
+        <motion.div
           initial="hidden"
           animate="visible"
           variants={fadeIn}
@@ -20,7 +20,7 @@ const MentionsLegales = () => {
           <span className="text-[var(--color-brand-orange)] font-bold tracking-wider uppercase text-sm mb-4 block">
             Informations Légales
           </span>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold    mb-6">
             Mentions Légales
           </h1>
           <p className="text-xl text-gray-600">
@@ -30,13 +30,13 @@ const MentionsLegales = () => {
         </motion.div>
 
         {/* Content */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 md:p-12 space-y-12 text-gray-700 leading-relaxed"
         >
-          
+
           <section>
             <h2 className="text-2xl font-bold text-[var(--color-brand-blue)] mb-4">1. Éditeur du site</h2>
             <p className="mb-4">Le site <strong>IBK TECH CENTER</strong> est édité et géré par :</p>
@@ -68,7 +68,7 @@ const MentionsLegales = () => {
             <p className="mb-4">
               L'ensemble de ce site relève de la législation sur le droit d'auteur et la propriété intellectuelle. Tous les contenus présents sur ce site (textes, images, graphismes, logo, icônes, design, services, vidéos) sont la propriété exclusive de <strong>IBK TECH CENTER</strong>.
             </p>
-            <p className="bg-blue-50 p-5 rounded-xl border-l-4 border-[var(--color-brand-blue)] text-gray-800">
+            <p className="bg-blue-50 p-5 rounded-xl border-l-4 border-[var(--color-brand-blue)]   ">
               Toute reproduction, distribution, modification, adaptation, retransmission ou publication, même partielle, de ces différents éléments est strictement interdite sans l'accord exprès par écrit de IBK TECH CENTER.
             </p>
           </section>

@@ -1,15 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
-
-@theme {
+:root {
   --font-sans: 'Inter', sans-serif;
   --font-heading: 'Outfit', sans-serif;
-  
+
   /* IBK TECH CENTER Colors */
-  --color-brand-blue: #1d4ed8;       /* Primary */
-  --color-brand-blue-light: #3b82f6; 
+  --color-brand-blue: #1d4ed8;
+  /* Primary */
+  --color-brand-blue-light: #3b82f6;
   --color-brand-blue-dark: #1e3a8a;
-  --color-brand-orange: #f97316;     /* Secondary / Action */
+  --color-brand-orange: #f97316;
+  /* Secondary / Action */
   --color-brand-orange-light: #fb923c;
   --color-brand-orange-dark: #ea580c;
 }
@@ -18,12 +18,20 @@
   html {
     scroll-behavior: smooth;
   }
+
   body {
     font-family: 'Inter', sans-serif;
-    @apply text-gray-800 bg-gray-50;
+    background-color: #ffffff;
+
   }
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Outfit', sans-serif;
-    @apply text-gray-900;
+    /* base layer placeholder */
   }
 }

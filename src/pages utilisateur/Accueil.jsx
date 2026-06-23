@@ -280,7 +280,7 @@ const Accueil = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
+              className="text-4xl md:text-5xl font-bold    mb-6"
             >
               Solutions Numériques à 360°
             </motion.h2>
@@ -306,8 +306,8 @@ const Accueil = () => {
                 className="bg-white p-8 rounded-3xl shadow-lg shadow-gray-200/40 border border-gray-100 transition-all duration-300 group"
               >
                 <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 ${service.color === 'blue'
-                    ? 'bg-blue-50 text-[var(--color-brand-blue)] group-hover:bg-[var(--color-brand-blue)] group-hover:text-white'
-                    : 'bg-orange-50 text-[var(--color-brand-orange)] group-hover:bg-[var(--color-brand-orange)] group-hover:text-white'
+                  ? 'bg-blue-50 text-[var(--color-brand-blue)] group-hover:bg-[var(--color-brand-blue)] group-hover:text-white'
+                  : 'bg-orange-50 text-[var(--color-brand-orange)] group-hover:bg-[var(--color-brand-orange)] group-hover:text-white'
                   }`}>
                   <service.icon size={32} />
                 </div>
@@ -327,7 +327,7 @@ const Accueil = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl md:text-5xl font-bold    mb-6">
               Catalogue détaillé de nos offres
             </h2>
             <div className="w-24 h-1 bg-[var(--color-brand-blue)] mx-auto"></div>
@@ -366,7 +366,7 @@ const Accueil = () => {
             <span className="text-[var(--color-brand-orange)] font-bold uppercase tracking-widest text-sm">
               Notre Engagement
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-3">
+            <h2 className="text-3xl md:text-4xl font-bold    mt-3">
               Pourquoi choisir IBK Tech Center ?
             </h2>
           </div>
@@ -378,7 +378,7 @@ const Accueil = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl font-semibold mb-8 text-gray-800">Ce qui nous distingue</h3>
+              <h3 className="text-2xl font-semibold mb-8  ">Ce qui nous distingue</h3>
 
               <div className="space-y-8">
                 {[
@@ -408,7 +408,7 @@ const Accueil = () => {
                       <item.icon size={28} />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-lg text-gray-900 mb-1">{item.title}</h4>
+                      <h4 className="font-semibold text-lg    mb-1">{item.title}</h4>
                       <p className="text-gray-600 leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
@@ -423,7 +423,7 @@ const Accueil = () => {
               viewport={{ once: true }}
               className="bg-gray-50 rounded-3xl p-8 md:p-10 border border-gray-100"
             >
-              <h3 className="text-2xl font-semibold mb-8 text-gray-800">Nos Garanties</h3>
+              <h3 className="text-2xl font-semibold mb-8  ">Nos Garanties</h3>
 
               <ul className="space-y-6">
                 {[
@@ -446,7 +446,7 @@ const Accueil = () => {
                   <Trophy size={28} />
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900">
+                  <p className="font-semibold   ">
                     Centre de formation fiable et professionnel
                   </p>
                   <p className="text-sm text-gray-600">

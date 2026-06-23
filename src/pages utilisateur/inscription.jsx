@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams, Link } from 'react-router-dom';
 import {
@@ -7,25 +7,16 @@ import {
   ChevronDown, BookOpen, Laptop
 } from 'lucide-react';
 
-// ─── Liste des formations ────────────────────────────────────────────────────
-const FORMATIONS = [
-  { id: 'info-base', title: 'Informatique de Base + Windows', duration: '1 mois', tarif: '170 000 GNF / mois', category: 'Bureautique' },
-  { id: 'word-deb', title: 'Word Débutant – Intermédiaire', duration: '2 mois', tarif: '250 000 GNF / mois', category: 'Bureautique' },
-  { id: 'excel-deb', title: 'Excel Débutant – Intermédiaire', duration: '2 mois', tarif: '300 000 GNF / mois', category: 'Bureautique' },
-  { id: 'excel-avance', title: 'Excel Avancé', duration: '1 mois', tarif: '500 000 GNF / mois', category: 'Bureautique' },
-  { id: 'ppt', title: 'PowerPoint Professionnel', duration: '1 mois', tarif: '200 000 GNF / mois', category: 'Bureautique' },
-  { id: 'outlook-deb', title: 'Outlook Débutant – Intermédiaire', duration: '2 mois', tarif: '400 000 GNF / mois', category: 'Bureautique' },
-  { id: 'outlook-avance', title: 'Outlook Avancé', duration: '1 mois', tarif: '500 000 GNF / mois', category: 'Bureautique' },
-  { id: 'access-deb', title: 'Access Débutant – Intermédiaire (MERISE & BDD)', duration: '2 mois + 2 semaines', tarif: '700 000 GNF / mois', category: 'Bureautique' },
-  { id: 'access-avance', title: 'Access Avancé', duration: '1 mois', tarif: '500 000 GNF / mois', category: 'Bureautique' },
-  { id: 'internet', title: 'Internet & Recherche Professionnelle', duration: '1 mois', tarif: '150 000 GNF / mois', category: 'Bureautique' },
-  { id: 'publisher', title: 'Publisher', duration: '2 mois', tarif: '200 000 GNF', category: 'Bureautique' },
-  { id: 'canva', title: 'Canva Professionnel', duration: '1 mois', tarif: '350 000 GNF / mois', category: 'Design' },
-  { id: 'photoshop', title: 'Photoshop Professionnel', duration: '1 mois + 1 semaine', tarif: '450 000 GNF / mois', category: 'Design' },
-  { id: 'anglais-deb', title: 'Anglais Débutant', duration: '3 mois', tarif: '300 000 GNF / mois', category: 'Anglais' },
-  { id: 'anglais-inter', title: 'Anglais Intermédiaire', duration: '3 mois', tarif: '350 000 GNF / mois', category: 'Anglais' },
-  { id: 'anglais-avance', title: 'Anglais Avancé', duration: '3 mois', tarif: '400 000 GNF / mois', category: 'Anglais' },
-];
+// ─── Mappings vers la base de données ───────────────────────────────────────
+const mapSexe = (val) => (val === 'Féminin' ? 'Femme' : 'Homme');
+const mapNiveauEtude = (val) => {
+  const m = { Primaire: 'Primaire', Collège: 'College', Lycée: 'Lycee', Universitaire: 'Bac+3', Professionnel: 'Autre', Autre: 'Autre' };
+  return m[val] || 'Autre';
+};
+const mapNiveauInfo = (val) => {
+  const m = { Débutant: 'Debutant', Intermédiaire: 'Intermediaire', Avancé: 'Avance' };
+  return m[val] || null;
+};
 
 // ─── Étapes du formulaire ────────────────────────────────────────────────────
 const STEPS = [
@@ -48,7 +39,7 @@ const InputField = ({ label, id, icon: Icon, ...props }) => (
       )}
       <input
         id={id}
-        className={`w-full border border-gray-200 rounded-xl py-3 pr-4 bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition ${Icon ? 'pl-10' : 'pl-4'}`}
+        className={`w-full border border-gray-200 rounded-xl py-3 pr-4 bg-white    placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition ${Icon ? 'pl-10' : 'pl-4'}`}
         {...props}
       />
     </div>
@@ -61,7 +52,7 @@ const TextareaField = ({ label, id, ...props }) => (
     <textarea
       id={id}
       rows={3}
-      className="w-full border border-gray-200 rounded-xl py-3 px-4 bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"
+      className="w-full border border-gray-200 rounded-xl py-3 px-4 bg-white    placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"
       {...props}
     />
   </div>
@@ -103,6 +94,28 @@ const Inscription = () => {
   const [searchParams] = useSearchParams();
   const preselected = searchParams.get('formation') || '';
 
+  const [formations, setFormations] = useState([]);
+  const [loadingFormations, setLoadingFormations] = useState(true);
+  const [submitError, setSubmitError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await fetch('/api/formations');
+        if (res.ok) {
+          const data = await res.json();
+          setFormations(data.filter(f => f.statut === 'ouverte'));
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoadingFormations(false);
+      }
+    };
+    load();
+  }, []);
+
   const [step, setStep] = useState(preselected ? 2 : 1);
   const [submitted, setSubmitted] = useState(false);
 
@@ -140,17 +153,61 @@ const Inscription = () => {
     }));
   };
 
-  const selectedFormation = FORMATIONS.find(f => f.id === form.formation);
+  const selectedFormation = formations.find(f => String(f.id) === String(form.formation));
+
+  const formationCategories = [...new Set(formations.map(f => f.type_formation_nom || 'Autre'))];
 
   const canNext = () => {
     if (step === 1) return !!form.formation;
     if (step === 2) return form.nom && form.prenom && form.sexe && form.telephone;
+    if (step === 4) return !!form.motivation && !!form.dejaFormation;
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (!form.motivation || !form.dejaFormation) {
+      setSubmitError('Veuillez remplir la motivation et indiquer si vous avez déjà suivi une formation.');
+      return;
+    }
+    setSubmitting(true);
+    setSubmitError('');
+    try {
+      const payload = {
+        formation_id: parseInt(form.formation, 10),
+        nom: form.nom,
+        prenom: form.prenom,
+        sexe: mapSexe(form.sexe),
+        commune: form.commune || null,
+        telephone: form.telephone,
+        whatsapp: form.whatsapp || null,
+        email: form.email || null,
+        profession: form.profession || null,
+        niveau_etude: mapNiveauEtude(form.niveauEtude),
+        niveau_etude_autre: form.niveauEtudeAutre || null,
+        competences: form.competences || null,
+        objectifs: form.objectifs.join(', ') || null,
+        objectif_autre: form.objectifAutre || null,
+        motivation: form.motivation,
+        deja_formation: form.dejaFormation,
+        laquelle: form.laquelle || null,
+        niveau_info: mapNiveauInfo(form.niveauInfo),
+        ordinateur: form.ordinateur || null,
+        type_appareil: form.typeAppareil || null,
+      };
+      const res = await fetch('/api/inscriptions-ligne', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Erreur lors de l\'inscription');
+      setSubmitted(true);
+    } catch (err) {
+      setSubmitError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   // ── Succès ──
@@ -165,15 +222,15 @@ const Inscription = () => {
           <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle size={40} className="text-emerald-600" />
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">Inscription envoyée !</h2>
+          <h2 className="text-3xl font-bold    mb-3">Inscription envoyée !</h2>
           <p className="text-gray-500 mb-2">
             Merci <strong>{form.prenom} {form.nom}</strong>, votre demande d'inscription a bien été reçue.
           </p>
           {selectedFormation && (
             <div className="my-6 bg-blue-50 rounded-2xl p-4 text-left">
               <p className="text-xs uppercase tracking-widest text-blue-600 font-semibold mb-1">Formation choisie</p>
-              <p className="font-bold text-gray-900">{selectedFormation.title}</p>
-              <p className="text-sm text-gray-500">{selectedFormation.duration} · {selectedFormation.tarif}</p>
+              <p className="font-bold   ">{selectedFormation.nom}</p>
+              <p className="text-sm text-gray-500">{selectedFormation.duree} · {Number(selectedFormation.tarif).toLocaleString('fr-FR')} GNF</p>
             </div>
           )}
           <p className="text-gray-500 text-sm mb-8">Notre équipe vous contactera dans les plus brefs délais pour confirmer votre inscription.</p>
@@ -197,7 +254,7 @@ const Inscription = () => {
           <span className="inline-block bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
             IBK Tech Center
           </span>
-          <h1 className="text-4xl font-bold text-gray-900 mb-3">Fiche d'Inscription</h1>
+          <h1 className="text-4xl font-bold    mb-3">Fiche d'Inscription</h1>
           <p className="text-gray-500">Remplissez le formulaire ci-dessous pour vous inscrire à une formation.</p>
         </motion.div>
 
@@ -219,7 +276,7 @@ const Inscription = () => {
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300
                     ${done ? 'bg-blue-600 border-blue-600 text-white'
                       : active ? 'bg-white border-blue-600 text-blue-600'
-                      : 'bg-white border-gray-200 text-gray-400'}`}
+                        : 'bg-white border-gray-200 text-gray-400'}`}
                   >
                     {done ? <CheckCircle size={18} /> : <Icon size={18} />}
                   </div>
@@ -248,37 +305,45 @@ const Inscription = () => {
               {step === 1 && (
                 <div className="space-y-6">
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-1">Choix de la formation</h2>
+                    <h2 className="text-2xl font-bold mb-1">Choix de la formation</h2>
                     <p className="text-gray-500 text-sm">Sélectionnez la formation à laquelle vous souhaitez vous inscrire.</p>
                   </div>
 
-                  {['Bureautique', 'Design', 'Anglais'].map(cat => (
+                  {loadingFormations && (
+                    <p className="text-gray-500 text-center py-8">Chargement des formations...</p>
+                  )}
+
+                  {!loadingFormations && formations.length === 0 && (
+                    <p className="text-gray-500 text-center py-8">Aucune formation ouverte pour le moment.</p>
+                  )}
+
+                  {formationCategories.map(cat => (
                     <div key={cat}>
                       <p className="text-xs uppercase tracking-widest font-bold text-gray-400 mb-3">{cat}</p>
                       <div className="space-y-2">
-                        {FORMATIONS.filter(f => f.category === cat).map(f => (
+                        {formations.filter(f => (f.type_formation_nom || 'Autre') === cat).map(f => (
                           <label
                             key={f.id}
                             className={`flex items-center justify-between gap-4 p-4 rounded-2xl border cursor-pointer transition
-                              ${form.formation === f.id
+                              ${String(form.formation) === String(f.id)
                                 ? 'border-blue-500 bg-blue-50'
                                 : 'border-gray-100 hover:border-blue-200 hover:bg-gray-50'
                               }`}
                           >
                             <div className="flex items-center gap-3">
                               <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0
-                                ${form.formation === f.id ? 'border-blue-600 bg-blue-600' : 'border-gray-300'}`}
+                                ${String(form.formation) === String(f.id) ? 'border-blue-600 bg-blue-600' : 'border-gray-300'}`}
                               >
-                                {form.formation === f.id && <div className="w-2 h-2 rounded-full bg-white" />}
+                                {String(form.formation) === String(f.id) && <div className="w-2 h-2 rounded-full bg-white" />}
                               </div>
                               <div>
-                                <p className="font-semibold text-gray-800 text-sm">{f.title}</p>
-                                <p className="text-xs text-gray-400">{f.duration}</p>
+                                <p className="font-semibold text-sm">{f.nom}</p>
+                                <p className="text-xs text-gray-400">{f.duree}</p>
                               </div>
                             </div>
-                            <span className="text-xs font-bold text-emerald-700 whitespace-nowrap">{f.tarif}</span>
-                            <input type="radio" name="formation" value={f.id} checked={form.formation === f.id}
-                              onChange={() => set('formation', f.id)} className="sr-only" />
+                            <span className="text-xs font-bold text-emerald-700 whitespace-nowrap">{Number(f.tarif).toLocaleString('fr-FR')} GNF</span>
+                            <input type="radio" name="formation" value={f.id} checked={String(form.formation) === String(f.id)}
+                              onChange={() => set('formation', String(f.id))} className="sr-only" />
                           </label>
                         ))}
                       </div>
@@ -291,7 +356,7 @@ const Inscription = () => {
               {step === 2 && (
                 <div className="space-y-5">
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-1">État Civil</h2>
+                    <h2 className="text-2xl font-bold    mb-1">État Civil</h2>
                     <p className="text-gray-500 text-sm">Vos informations personnelles de contact.</p>
                   </div>
                   {selectedFormation && (
@@ -299,7 +364,7 @@ const Inscription = () => {
                       <BookOpen size={18} className="text-blue-600 flex-shrink-0" />
                       <div>
                         <p className="text-xs text-blue-500 font-semibold uppercase tracking-wide">Formation choisie</p>
-                        <p className="font-bold text-gray-900 text-sm">{selectedFormation.title}</p>
+                        <p className="font-bold text-sm">{selectedFormation.nom}</p>
                       </div>
                     </div>
                   )}
@@ -328,7 +393,7 @@ const Inscription = () => {
               {step === 3 && (
                 <div className="space-y-5">
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-1">Cadre Professionnel</h2>
+                    <h2 className="text-2xl font-bold    mb-1">Cadre Professionnel</h2>
                     <p className="text-gray-500 text-sm">Votre parcours académique et vos objectifs.</p>
                   </div>
                   <InputField label="Profession actuelle" id="profession" icon={Briefcase} placeholder="Ex : Étudiant, Comptable..."
@@ -389,7 +454,7 @@ const Inscription = () => {
               {step === 4 && (
                 <div className="space-y-5">
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-1">Motivation & Niveau</h2>
+                    <h2 className="text-2xl font-bold    mb-1">Motivation & Niveau</h2>
                     <p className="text-gray-500 text-sm">Aidez-nous à mieux vous connaître.</p>
                   </div>
 
@@ -416,7 +481,7 @@ const Inscription = () => {
               {step === 5 && (
                 <div className="space-y-6">
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-1">Équipement Personnel</h2>
+                    <h2 className="text-2xl font-bold    mb-1">Équipement Personnel</h2>
                     <p className="text-gray-500 text-sm">Ces informations nous aident à adapter la formation.</p>
                   </div>
 
@@ -431,25 +496,25 @@ const Inscription = () => {
 
                   {/* Récapitulatif */}
                   <div className="bg-gray-50 rounded-2xl p-5 space-y-2 border border-gray-100">
-                    <p className="font-bold text-gray-800 mb-3">Récapitulatif de votre inscription</p>
+                    <p className="font-bold   mb-3">Récapitulatif de votre inscription</p>
                     {selectedFormation && (
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-500">Formation</span>
-                        <span className="font-semibold text-gray-900">{selectedFormation.title}</span>
+                        <span className="font-semibold   ">{selectedFormation.nom}</span>
                       </div>
                     )}
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-500">Nom complet</span>
-                      <span className="font-semibold text-gray-900">{form.prenom} {form.nom}</span>
+                      <span className="font-semibold   ">{form.prenom} {form.nom}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-500">Téléphone</span>
-                      <span className="font-semibold text-gray-900">{form.telephone}</span>
+                      <span className="font-semibold   ">{form.telephone}</span>
                     </div>
                     {form.email && (
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-500">Email</span>
-                        <span className="font-semibold text-gray-900">{form.email}</span>
+                        <span className="font-semibold   ">{form.email}</span>
                       </div>
                     )}
                   </div>
@@ -460,10 +525,13 @@ const Inscription = () => {
           </AnimatePresence>
 
           {/* ── Navigation ── */}
+          {submitError && (
+            <div className="mt-4 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">{submitError}</div>
+          )}
           <div className="flex justify-between items-center mt-6">
             {step > 1 ? (
               <button type="button" onClick={() => setStep(s => s - 1)}
-                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 font-semibold px-5 py-3 rounded-2xl border border-gray-200 hover:border-gray-300 bg-white transition">
+                className="flex items-center gap-2 text-gray-600 hover:   font-semibold px-5 py-3 rounded-2xl border border-gray-200 hover:border-gray-300 bg-white transition">
                 <ArrowLeft size={18} /> Précédent
               </button>
             ) : (
@@ -479,9 +547,9 @@ const Inscription = () => {
                 Suivant <ArrowRight size={18} />
               </button>
             ) : (
-              <button type="submit"
-                className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-3 rounded-2xl transition shadow-lg shadow-orange-200">
-                <CheckCircle size={18} /> Envoyer ma candidature
+              <button type="submit" disabled={submitting}
+                className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 disabled:opacity-60 text-white font-bold px-8 py-3 rounded-2xl transition shadow-lg shadow-orange-200">
+                <CheckCircle size={18} /> {submitting ? 'Envoi...' : 'Envoyer ma candidature'}
               </button>
             )}
           </div>

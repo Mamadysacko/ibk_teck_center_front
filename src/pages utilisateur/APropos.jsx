@@ -35,7 +35,7 @@ const staggerContainer = {
 const APropos = () => {
   const team = [
     {
-      name: "Ibrahima K.",
+      name: "MAMADY SACKO",
       role: "Fondateur & Directeur Général",
       qualities: ["Visionnaire", "Leadership", "Stratégique"],
       bg: "bg-blue-900"
